@@ -3,91 +3,36 @@
 <head>
 
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 
-  <title>关于 | 蒋子凡</title>
+  <style type="text/css">
+    html { height: 100% }
+    body { height: 100%; margin: 0; padding: 0 }
+    #map_canvas { height: 100% }
+  </style>
+
+  <title>旅途 | 蒋子凡</title>
 
   <!-- <link rel="stylesheet" href="/static/css/common/common.css"> -->
 
-  <h1>关于</h1>
+  <!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBh-QTNtuLJyhyhBsB98ovUTBFbpF6mnu8&sensor=true"></script> -->
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
 
-  <section>
-    <div>
-      <p>
-        你好，我叫蒋子凡。<br>
-        我就读于南京大学，将于2015年夏天毕业，届时22岁。<br>
-        目前我居住于北京，在<a href="http://www.zhihu.com" target="_blank">知乎</a>担任前端工程师。我熟悉html/css/js，以及与此相关的产品设计、响应式布局、性能优化、兼容性处理等。至于服务器端，python和nodejs比较符合我的胃口。
-      </p>
-      <p>
-        我无法确定接下的某一时刻自己会在何处从事着什么，至少目前为止这些事情是我比较喜欢的：
-        <ul>
-          <li>阅读：我几乎每天都在读书，喜欢的作家有：刘亮程、村上春树、米兰昆德拉、毛姆。你可以在豆瓣上看到我的<a href="http://book.douban.com/people/60486530/" target="_blank">读书动态</a>，豆瓣是我最喜欢的网站。</li>
-          <li>旅行：喜欢研究地图，想把每一寸土地都给踩碎。</li>
-          <li>体育：切尔西死忠。现在更多看NBA，支持洛杉矶快船。</li>
-          <li>游戏：因游戏而踏入软件学院。曾是Grubby、2009粉丝，也是仙剑粉。</li>
-          <li>历史：蹭了不少历史系的课程，因而做了<a href="http://classic.lilystudio.org" target="_blank">ClassIC</a>。看希腊神话、荷马史诗。喜欢有历史感的城市，比如南京、北京。</li>
-          <li>哲学：尼采、庄子。向往古希腊，坚信那是人类的精神故乡。认识你自己。我写下这个关于，不过也是为了更好地了解我自己。</li>
-        </ul>
-      </p>
-    </div>
-  </section>
-
-  <section>
-    <h2>Brief</h2>
-    <ul>
-      <li>1992年冬至，出生于昆山，转眼晃过十几年无忧无虑的童年生活。</li>
-      <li>2008年9月至2011年6月，苏州市木渎中学，很美的一个地方。</li>
-      <li>2011年9月至今，南京大学软件学院，过去的部分可见<a href="http://blog.jiangzifan.com/?p=287" target="_blank">《我在仙林的两年》</a>一文。</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Experience</h2>
-    <ul>
-      <li>2012年9月至2014年1月，南京大学<a href="http://lilystudio.org" target="_blank">小百合工作室</a>，美工组负责人。</li>
-      <li>2013年7月至2013年9月，阿里巴巴淘宝聚划算事业部，前端实习生。</li>
-      <li>2013年12月至2014年5月，Mydocumate IT部，UED组长。</li>
-      <li>2014年7月至今，知乎，前端实习生。</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Projects</h2>
-    <ul>
-      <li>2012年，仙林软件奇侠传，主策划、主程序、主美工。</li>
-      <li>2013年，<a href="http://douya.jiangzifan.com" target="_blank">豆芽</a>，独立开发。</li>
-      <li>2013年，<a href="http://classic.lilystudio.org" target="_blank">ClassIC</a>，产品经理、前端开发。</li>
-      <li>2014年，<a href="http://mydocumate.com" target="_blank">Mydocumate</a>，前端开发。</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Travels</h2>
-    <ul>
-      <li>2008年8月，海南</li>
-      <li>2012年8月，西藏</li>
-      <li>2012年10月，敦煌、七一冰川</li>
-      <li>2013年10月，川西</li>
-      <li>2013年12月，东北</li>
-      <li>2014年6月，甘肃、青海</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Links</h2>
-    <ul>
-      <li><a href="http://blog.jiangzifan.com" target="_blank">博客</a></li>
-      <li><a href="http://www.douban.com/people/60486530/" target="_blank">豆瓣</a></li>
-      <li><a href="http://www.zhihu.com/people/jiang-zi-fan" target="_blank">知乎</a></li>
-      <li><a href="http://weibo.com/u/2497392042" target="_blank">微博</a></li>
-      <li><a href="https://twitter.com/Jiang_Zifan" target="_blank">Twitter</a></li>
-      <li><a href="https://github.com/J22Melody" target="_blank">Github</a></li>
-    </ul>
-  </section>
+  <script type="text/javascript">
+  function initialize() {
+    var mapOptions = {
+      center: new google.maps.LatLng(-34.397, 150.644),
+      zoom: 8,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+  }
+  </script>
 
 </head>
-<body>
 
+<body onload="initialize()">
+  <div id="map_canvas" style="width:100%; height:100%"></div>
 </body>
 
 </html>
