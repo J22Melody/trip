@@ -2,3 +2,5 @@
 .idea/
 .sass-cache/
 css/
+bower_components/
+node_modules/

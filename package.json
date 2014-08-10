@@ -2,6 +2,8 @@
   "name": "trip",
   "version": "0.0.0",
   "description": "something about my trip",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
+    "express": "^4.8.2"
   }
 }

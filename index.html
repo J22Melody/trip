@@ -3,36 +3,23 @@
 <head>
 
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-
-  <style type="text/css">
-    html { height: 100% }
-    body { height: 100%; margin: 0; padding: 0 }
-    #map_canvas { height: 100% }
-  </style>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
 
   <title>旅途 | 蒋子凡</title>
 
-  <link rel="stylesheet" href="/css/entry.css">
-
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBh-QTNtuLJyhyhBsB98ovUTBFbpF6mnu8&sensor=true"></script>
-  <script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-
-  <script type="text/javascript">
-  function initialize() {
-    var mapOptions = {
-      center: new google.maps.LatLng(-34.397, 150.644),
-      zoom: 8,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-  }
-  </script>
+  <link rel="stylesheet" href="css/entry.css">
 
 </head>
 
-<body onload="initialize()">
-  <div id="map_canvas" style="width:100%; height:100%"></div>
+<body>
+  <div id="map_canvas"></div>
+
+  <!--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBh-QTNtuLJyhyhBsB98ovUTBFbpF6mnu8&sensor=true"></script>-->
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+  <script src="js/main.js"></script>
 </body>
 
 </html>
