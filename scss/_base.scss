@@ -35,5 +35,15 @@ body {
   height: 26px;
   width: 100%;
   border-top: 1px solid rgba(222,222,222,.5);
+  cursor: pointer;
+  
+  .intro-bottom-arrow{
+    background: url('../img/intro-bottom.png') no-repeat center;
+    width: 70px;
+    height: 15px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+  }
 }
 
