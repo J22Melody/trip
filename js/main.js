@@ -3,11 +3,12 @@
     var map,
         places;
 
-    var $intro = $('#intro');
+    var $intro = $('.intro-content');
+    var $intro_bottom = $('.intro-bottom');
 
     var initialize_map = function() {
         var mapOptions = {
-            center: new google.maps.LatLng(37.5446509602, 104.1075355397),
+            center: new google.maps.LatLng(39.5446509602, 104.1075355397),
             zoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -43,10 +44,11 @@
     var toggle_intro = function() {
         var hide = $intro.data('hide');
         if (hide) {
-            $intro.animate({height: '95%'});
+            $intro.animate({height: '92%'});
         } else {
-            $intro.animate({height: '26px'});
+            $intro.animate({height: '0'});
         }
+        $intro_bottom.find('.intro-bottom-center').toggleClass('rotate');
         $intro.data('hide',!hide);
     };
 
@@ -54,7 +56,7 @@
         initialize_map();
     });
 
-    $('.intro-bottom').click(function(){
+    $intro_bottom.click(function(){
         if(!$(this).data('clicked')){
             initialize_place();
             $(this).data('clicked', true);
