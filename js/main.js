@@ -23,19 +23,28 @@
 
                 var geocoder = new google.maps.Geocoder();
                 places.forEach(function(place, index) {
-                    geocoder.geocode({address: place.name}, function(results, status) {
-                        if (status === google.maps.GeocoderStatus.OK) {
-                            var marker = new google.maps.Marker({
-                                position: results[0].geometry.location,
-                                animation: google.maps.Animation.DROP
-                            });
-                            setTimeout(function() {
+                    if (place.location) {
+                        var myLatlng = new google.maps.LatLng(place.location.k, place.location.A);
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            animation: google.maps.Animation.DROP
+                        });
+                        setTimeout(function() {
+                            marker.setMap(map);
+                        }, 500*index);
+                    } else {
+                        geocoder.geocode({address: place.name}, function(results, status) {
+                            console.log(results[0].geometry.location);
+                            if (status === google.maps.GeocoderStatus.OK) {
+                                var marker = new google.maps.Marker({
+                                    position: results[0].geometry.location
+                                });
                                 marker.setMap(map);
-                            }, 300*index);
-                        } else {
-                            console.log("Geocode was not successful for the following reason: " + status);
-                        }
-                    });
+                            } else {
+                                console.log("Geocode was not successful for the following reason: " + status);
+                            }
+                        });
+                    }
                 });
             }
         });

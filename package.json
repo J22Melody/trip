@@ -4,6 +4,7 @@
   "description": "something about my trip",
   "devDependencies": {},
   "dependencies": {
-    "express": "^4.8.2"
+    "express": "^4.8.2",
+    "body-parser": "^1.6.3"
   }
 }
