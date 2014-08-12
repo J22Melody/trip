@@ -48,7 +48,7 @@
         } else {
             $intro.animate({height: '0'});
         }
-        $intro_bottom.find('.intro-bottom-center').toggleClass('rotate');
+        $intro_bottom.toggleClass('slide-up');
         $intro.data('hide',!hide);
     };
 

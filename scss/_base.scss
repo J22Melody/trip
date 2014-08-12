@@ -23,7 +23,6 @@ body {
   width: 90%;
   height: 92%;
   z-index: 1;
-  margin-bottom: 1px;
   background: rgba(255,255,255,.75);
   box-shadow: -3px 0 3px -3px rgba(0,0,0,.4), 3px 0 3px -3px rgba(0,0,0,.4);
 }
@@ -35,6 +34,16 @@ body {
   height: 26px;
   display: flex;
   cursor: pointer;
+  margin-top: 1px;
+
+  &.slide-up{
+    margin-top: 0;
+
+    .intro-bottom-center{
+      @include transform(rotate(180deg));
+      @include box-shadow(0,-3px,3px,-3px,rgba(0,0,0,.4));
+    }
+  }
 
   .intro-bottom-left{
     background: rgba(255,255,255,.75);
@@ -48,11 +57,7 @@ body {
   .intro-bottom-center{
     width: 196px;
     background: url('../img/intro-bottom.png') no-repeat center;
-    box-shadow: 0 3px 3px -3px rgba(0,0,0,.4), 0 -3px 3px -3px rgba(0,0,0,.4);
-
-    &.rotate{
-      @include transform(rotate(180deg));
-    }
+    @include box-shadow(0,3px,3px,-3px,rgba(0,0,0,.4));
   }
 
   .intro-bottom-right{
