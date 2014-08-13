@@ -4,11 +4,12 @@
         places;
 
     var hide_markers = [];
+    window.hide_paths = [];
 
     var $intro = $('.intro-content');
     var $intro_bottom = $('.intro-bottom');
 
-    var initialize_map = function() {
+    var init_map = function() {
         var mapOptions = {
             center: new google.maps.LatLng(39.5446509602, 104.1075355397),
             zoom: 4,
@@ -27,10 +28,19 @@
                     marker.setMap(null);
                 });
             }
+            if (zoomLevel > 5) {
+                hide_paths.forEach(function(path){
+                    path.setMap(map);
+                });
+            } else {
+                hide_paths.forEach(function(path){
+                    path.setMap(null);
+                });
+            }
         });
     };
 
-    var initialize_place = function() {
+    var init_place = function() {
         $.ajax({
             url: 'data.json',
             complete: function(data){
@@ -39,17 +49,17 @@
 
                 var init = function(places) {
                     places.forEach(function(place) {
-                        if (place.location) {
+//                        if (place.location) {
                             place.location = new google.maps.LatLng(place.location.k, place.location.A);
-                        } else {
-                            geocoder.geocode({address: place.name}, function(results, status) {
-                                if (status === google.maps.GeocoderStatus.OK) {
-                                    place.location = results[0].geometry.location;
-                                } else {
-                                    console.log("Geocode was not successful for the following reason: " + status);
-                                }
-                            });
-                        }
+//                        } else {
+//                            geocoder.geocode({address: place.name}, function(results, status) {
+//                                if (status === google.maps.GeocoderStatus.OK) {
+//                                    place.location = results[0].geometry.location;
+//                                } else {
+//                                    console.log("Geocode was not successful for the following reason: " + status);
+//                                }
+//                            });
+//                        }
 
                         if (place.children) {
                             init(place.children);
@@ -58,8 +68,36 @@
                 }
 
                 init(places);
+                init_path();
             }
         });
+    };
+
+    var init_path = function() {
+        var directionsService = new google.maps.DirectionsService();
+
+        places.forEach(function(place){
+            if(place.children && place.children.length){
+                place.children.forEach(function(child, index){
+                    if (index === place.children.length-1) return;
+                    var directionsDisplay = new google.maps.DirectionsRenderer();
+                    directionsDisplay.setOptions({suppressMarkers: true, preserveViewport: true});
+                    var start = child.name;
+                    var end = place.children[index+1].name;
+                    var request = {
+                        origin: start,
+                        destination: end,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+                    directionsService.route(request, function(result, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(result);
+                            hide_paths.push(directionsDisplay);
+                        }
+                    });
+                });
+            }
+        })
     };
 
     var show_place = function() {
@@ -101,8 +139,8 @@
     };
 
     $(document).ready(function(){
-        initialize_map();
-        initialize_place();
+        init_map();
+        init_place();
     });
 
     $intro_bottom.click(function(){
