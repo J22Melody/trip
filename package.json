@@ -2,9 +2,11 @@
   "name": "trip",
   "version": "0.0.0",
   "description": "something about my trip",
-  "devDependencies": {},
   "dependencies": {
     "express": "^4.8.2",
     "body-parser": "^1.6.3"
+  },
+  "devDependencies": {
+    "request": "^2.40.0"
   }
 }

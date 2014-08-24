@@ -3,8 +3,9 @@
     var map,
         places;
 
+    var main_markers = [];
     var hide_markers = [];
-    window.hide_paths = [];
+    var hide_paths = [];
 
     var $intro = $('.intro-content');
     var $intro_bottom = $('.intro-bottom');
@@ -19,22 +20,25 @@
 
         google.maps.event.addListener(map, 'zoom_changed', function() {
             var zoomLevel = map.getZoom();
-            if (zoomLevel > 4) {
-                hide_markers.forEach(function(marker){
-                    marker.setMap(map);
-                });
-            } else {
-                hide_markers.forEach(function(marker){
-                    marker.setMap(null);
-                });
-            }
             if (zoomLevel > 5) {
                 hide_paths.forEach(function(path){
                     path.setMap(map);
                 });
+                hide_markers.forEach(function(marker){
+                    marker.setMap(map);
+                });
+                main_markers.forEach(function(marker){
+                    marker.setMap(null);
+                });
             } else {
                 hide_paths.forEach(function(path){
                     path.setMap(null);
+                });
+                hide_markers.forEach(function(marker){
+                    marker.setMap(null);
+                });
+                main_markers.forEach(function(marker){
+                    marker.setMap(map);
                 });
             }
         });
@@ -43,61 +47,54 @@
     var init_place = function() {
         $.ajax({
             url: 'data.json',
-            complete: function(data){
-                places = eval(data.responseText);
-                var geocoder = new google.maps.Geocoder();
+            success: function(data){
+                places = data.places;
 
                 var init = function(places) {
                     places.forEach(function(place) {
-//                        if (place.location) {
-                            place.location = new google.maps.LatLng(place.location.k, place.location.A);
-//                        } else {
-//                            geocoder.geocode({address: place.name}, function(results, status) {
-//                                if (status === google.maps.GeocoderStatus.OK) {
-//                                    place.location = results[0].geometry.location;
-//                                } else {
-//                                    console.log("Geocode was not successful for the following reason: " + status);
-//                                }
-//                            });
-//                        }
+                        place.location = new google.maps.LatLng(place.location.k, place.location.A);
 
                         if (place.children) {
                             init(place.children);
                         }
+
+                        if (place.paths) {
+                            place.paths.forEach(function(path){
+                                init_path(path);
+                            });
+                        }
                     });
                 }
 
+                var directionsService = new google.maps.DirectionsService();
+                var init_path = function(paths) {
+                   var directionsDisplay = new google.maps.DirectionsRenderer();
+                   directionsDisplay.setOptions({suppressMarkers: true, preserveViewport: true});
+                   var start = paths[0];
+                   var end = paths[paths.length - 1];
+                   var waypts = [];
+                   paths.slice(1, paths.length - 1).forEach(function(point){
+                       waypts.push({location: point, stopover:true});
+                   });
+                   var request = {
+                       origin: start,
+                       destination: end,
+                       travelMode: google.maps.TravelMode.DRIVING,
+                       waypoints: waypts
+                   };
+                   directionsService.route(request, function(result, status) {
+                       console.log(result);
+                       if (status == google.maps.DirectionsStatus.OK) {
+                           directionsDisplay.setDirections(result);
+                           directionsDisplay.setMap(map);
+                           hide_paths.push(directionsDisplay);
+                       }
+                   });
+                };
+
                 init(places);
-                init_path();
             }
         });
-    };
-
-    var init_path = function() {
-        var directionsService = new google.maps.DirectionsService();
-
-        places.forEach(function(place){
-            if(place.children && place.children.length){
-                place.children.forEach(function(child, index){
-                    if (index === place.children.length-1) return;
-                    var directionsDisplay = new google.maps.DirectionsRenderer();
-                    directionsDisplay.setOptions({suppressMarkers: true, preserveViewport: true});
-                    var start = child.name;
-                    var end = place.children[index+1].name;
-                    var request = {
-                        origin: start,
-                        destination: end,
-                        travelMode: google.maps.TravelMode.DRIVING
-                    };
-                    directionsService.route(request, function(result, status) {
-                        if (status == google.maps.DirectionsStatus.OK) {
-                            directionsDisplay.setDirections(result);
-                            hide_paths.push(directionsDisplay);
-                        }
-                    });
-                });
-            }
-        })
     };
 
     var show_place = function() {
@@ -114,6 +111,7 @@
                     }, 300*index);
 
                     show(place.children);
+                    main_markers.push(marker);
                 } else {
                     var marker = new google.maps.Marker({
                         position: place.location,
@@ -155,4 +153,3 @@
 
 
 })();
-
